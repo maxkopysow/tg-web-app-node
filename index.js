@@ -56,12 +56,14 @@ app.get('', async (req,res) =>{
 app.post('/web-data',async (req,res) =>{
    const {
         queryId,
-        chatId
+        chatId,
+        usID
     } = req.body;
 
     console.log("Getting post req");
     console.log("qID " +queryId);
     console.log("cID "+ chatId);
+    console.log(usID);
     // bot.sendMessage(chatID, 'NO: ');
     // try{
     //     await bot.answerWebAppQuery(queryId,{
