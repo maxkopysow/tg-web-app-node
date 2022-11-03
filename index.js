@@ -59,7 +59,9 @@ app.post('/web-data',async (req,res) =>{
         email, 
         phoneNumber
     } = req.body;
+    console.log("working");
 
+    bot.sendMessage(chatId, 'FIO: ');
     try{
         await bot.answerWebAppQuery(queryId,{
             type:'article',
@@ -77,6 +79,8 @@ app.post('/web-data',async (req,res) =>{
         })
         return res.status(500).json({});
     }
+
+    
     
     
 
