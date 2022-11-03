@@ -6,12 +6,13 @@ const token = '5734831079:AAFB480eoh_PZzlygAITeo9IIWBD5wKCGIs';
 const webAppUrl= 'https://jocular-tulumba-eef92b.netlify.app/';
 const bot = new TelegramBot(token, {polling: true});
 const app = express();
-
+var chatID;
 app.use(express.json());
 app.use(cors());
 
 bot.on('message',async (msg) => {
     const chatId = msg.chat.id;
+    chatID = chatId;
     const text = msg.text;
 
     
@@ -48,7 +49,12 @@ bot.on('message',async (msg) => {
     }
   
 });
-
+app.get('/', async (req,res) =>{
+    bot.sendMessage(chatID, 'FIO: ');
+    return res.status(200).json(
+        "Hello"
+    );
+})
 app.post('/web-data',async (req,res) =>{
    const {
         queryId,
