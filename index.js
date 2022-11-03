@@ -55,19 +55,19 @@ app.get('', async (req,res) =>{
 })
 
 app.post('/web-data',async (req,res) =>{
-//    const {
-//         queryId,
-//         chatId,
-//         FIO,
-//         companyName,
-//         companyINN, 
-//         email, 
-//         phoneNumber
-//     } = req.body;
+   const {
+        queryId,
+        chatId,
+        FIO,
+        companyName,
+        companyINN, 
+        email, 
+        phoneNumber
+    } = req.body;
 
     console.log("Getting post req");
 
-    bot.sendMessage(chatID, 'NO: ');
+    // bot.sendMessage(chatID, 'NO: ');
     // try{
     //     await bot.answerWebAppQuery(queryId,{
     //         type:'article',
