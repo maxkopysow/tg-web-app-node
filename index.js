@@ -49,7 +49,7 @@ bot.on('message',async (msg) => {
     }
   
 });
-app.get('/', async (req,res) =>{
+app.get('', async (req,res) =>{
     bot.sendMessage(chatID, 'FIO: ');
     return res.status(200).json(
         "Hello"
