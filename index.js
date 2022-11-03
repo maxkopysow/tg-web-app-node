@@ -15,7 +15,7 @@ bot.on('message',async (msg) => {
     chatID = chatId;
     const text = msg.text;
 
-    
+    console.log("working");
 
     if(text ==='/start'){
         var options = {
@@ -51,7 +51,7 @@ bot.on('message',async (msg) => {
 });
 app.get('', async (req,res) =>{
     bot.sendMessage(chatID, 'FIO: ');
-    console.log("working");
+    
     return res.status(200).json(
         "Hello"
     );
