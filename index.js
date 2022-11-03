@@ -14,18 +14,15 @@ bot.on('message',async (msg) => {
     const chatId = msg.chat.id;
     chatID = chatId;
     const text = msg.text;
-
-    console.log("working");
-
     if(text ==='/start'){
         var options = {
             reply_markup: ({
-            //     inline_keyboard: [
-            //         [{text: 'Заполните форму', web_app:{url: webAppUrl}}], // Clicking will send "1"
-            //   ]
-              keyboard: [
-                [{text: 'Заполните форму', web_app:{url: webAppUrl}}], // Clicking will send "1"
-          ]
+                inline_keyboard: [
+                    [{text: 'Заполните форму', web_app:{url: webAppUrl}}], // Clicking will send "1"
+              ]
+        //       keyboard: [
+        //         [{text: 'Заполните форму', web_app:{url: webAppUrl}}], // Clicking will send "1"
+        //   ]
             })
         };
         await bot.sendMessage(chatId,'Ниже появится кнопка, заполните форму',options)
