@@ -53,6 +53,7 @@ app.get('', async (req,res) =>{
         "Hello"
     );
 })
+
 app.post('/web-data',async (req,res) =>{
    const {
         queryId,
@@ -67,23 +68,23 @@ app.post('/web-data',async (req,res) =>{
     console.log("Getting post req");
 
     bot.sendMessage(chatId, 'NO: ');
-    try{
-        await bot.answerWebAppQuery(queryId,{
-            type:'article',
-            id:queryId,
-            title:'Успешно отправлена заявка',
-            input_message_content:{message_text: "message text test"}
-        })
-        return res.status(200).json({});
-    }catch(e){
-        await bot.answerWebAppQuery(queryId,{
-            type:'article',
-            id:queryId,
-            title:'Не удалось отправить заявку',
-            input_message_content:{message_text: "Не удалось отправить заявку message text test"}
-        })
-        return res.status(500).json({});
-    }
+    // try{
+    //     await bot.answerWebAppQuery(queryId,{
+    //         type:'article',
+    //         id:queryId,
+    //         title:'Успешно отправлена заявка',
+    //         input_message_content:{message_text: "message text test"}
+    //     })
+    //     return res.status(200).json({});
+    // }catch(e){
+    //     await bot.answerWebAppQuery(queryId,{
+    //         type:'article',
+    //         id:queryId,
+    //         title:'Не удалось отправить заявку',
+    //         input_message_content:{message_text: "Не удалось отправить заявку message text test"}
+    //     })
+    //     return res.status(500).json({});
+    // }
 
     
     
