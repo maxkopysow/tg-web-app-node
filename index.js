@@ -6,7 +6,6 @@ const token = '5734831079:AAFB480eoh_PZzlygAITeo9IIWBD5wKCGIs';
 const webAppUrl= 'https://jocular-tulumba-eef92b.netlify.app/';
 const bot = new TelegramBot(token, {polling: true});
 const app = express();
-var chatID;
 app.use(express.json());
 app.use(cors());
 
