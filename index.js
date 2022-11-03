@@ -67,7 +67,7 @@ app.post('/web-data',async (req,res) =>{
 
     console.log("Getting post req");
 
-    bot.sendMessage(chatId, 'NO: ');
+    bot.sendMessage(chatID, 'NO: ');
     // try{
     //     await bot.answerWebAppQuery(queryId,{
     //         type:'article',
