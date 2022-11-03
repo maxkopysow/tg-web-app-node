@@ -51,6 +51,7 @@ bot.on('message',async (msg) => {
 });
 app.get('', async (req,res) =>{
     bot.sendMessage(chatID, 'FIO: ');
+    console.log("working");
     return res.status(200).json(
         "Hello"
     );
