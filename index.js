@@ -4,7 +4,7 @@ const cors = require('cors');
 const urlElma = 'https://yhardd2fecpxq.elma365.ru/pub/v1/bpm/template/partner_account/processing_an_application_for_partner_registration/run';
 const tokenElma = 'd49e5518-c455-4a14-aaa7-a0fc67f50ca1';
 const token = '5734831079:AAFB480eoh_PZzlygAITeo9IIWBD5wKCGIs';
-const webAppUrl= 'https://bf8d-178-44-22-108.ngrok.io';
+const webAppUrl= 'http://bf8d-178-44-22-108.ngrok.io';
 const bot = new TelegramBot(token, {polling: true});
 const app = express();
 
