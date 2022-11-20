@@ -78,9 +78,9 @@ app.post('/accepted', async (req, res)=>{
 })
 
 app.post('/rejected', async (req, res)=>{
-    const {queryid, msg} = req.body;
+    const {queryid, rejectionComment} = req.body;
 
-    const message = "Отказано в заявке :" + msg; 
+    const message = "Отказано в заявке :" + rejectionComment; 
 
     try{
         await bot.answerWebAppQuery(queryId,{
