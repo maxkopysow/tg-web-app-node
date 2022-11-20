@@ -4,7 +4,7 @@ const cors = require('cors');
 const urlElma = 'https://yhardd2fecpxq.elma365.ru/pub/v1/bpm/template/partner_account/processing_an_application_for_partner_registration/run';
 const tokenElma = 'd49e5518-c455-4a14-aaa7-a0fc67f50ca1';
 const token = '5734831079:AAFB480eoh_PZzlygAITeo9IIWBD5wKCGIs';
-const webAppUrl= 'https://bf8d-178-44-22-108.ngrok.io';
+const webAppUrl= 'https://jocular-tulumba-eef92b.netlify.app';
 const bot = new TelegramBot(token, {polling: true});
 const app = express();
 
@@ -20,11 +20,13 @@ bot.on('message',async (msg) => {
         var options = {
             reply_markup: ({
                 inline_keyboard: [
-                    [{text: 'Заполните форму', web_app:{url: webAppUrl}}], // Clicking will send "1"
-              ]
+                    [{text: 'Заполните форму',web_app:{url: webAppUrl}}
+                ], // Clicking will send "1"
+                
+            ]
             })
         };
-        await bot.sendMessage(chatId,'Ниже появится кнопка, заполните форму',options)
+        await bot.sendMessage(chatId,`Ниже появится кнопка, заполните форму. ${chatId}`,options)
   
     }
     if(msg?.web_app_data?.data){
@@ -32,33 +34,31 @@ bot.on('message',async (msg) => {
             const data = JSON.parse(msg?.web_app_data?.data);
             console.log(data);
             bot.sendMessage(chatId,'Завяка отправлена на одобрение. Ожидайте ответа.');
-
-            setTimeout( async ()=>{
-
-            }, 3000)
+            sendDataToElma(data,chatId);        
         }catch(e){
             console.log(e);
         }   
     }  
 });
 
+
 app.post('/accepted', async (req, res)=>{
-    const {queryid, inviteUrl} = req.body;
+    const {chatId, inviteUrl} = req.body;
 
-    const message = "Заявка была одобрена." +
-    + " Перейдите по ссылке для завершения регистрации: " + inviteUrl; 
-
-    try{
-        await bot.answerWebAppQuery(queryId,{
-            type:'article',
-            id:queryid,
-            title:'Заявка одобрена',
-            input_message_content:{message_text: message}
-        })
+    const message = "Заявка была одобрена.\nПерейдите по ссылке для завершения регистрации:\n" + inviteUrl; 
+    bot.sendMessage(chatId,message);
+    // try{
+    //     await bot.answerWebAppQuery(queryid,{
+    //         type:'article',
+    //         id:queryid,
+    //         title:'Заявка одобрена',
+    //         input_message_content:{message_text: message}
+    //     })
         return res.status(200).json({});
-    }catch(e){
-        return res.status(500).json({});
-    }
+    // }catch(e){
+    //     // console.log(e);
+    //     return res.status(500).json({});
+    // }
 })
 
 app.post('/rejected', async (req, res)=>{
@@ -67,7 +67,7 @@ app.post('/rejected', async (req, res)=>{
     const message = "Отказано в заявке :" + rejectionComment; 
 
     try{
-        await bot.answerWebAppQuery(queryId,{
+        await bot.answerWebAppQuery(queryid,{
             type:'article',
             id:queryid,
             title:'Отказ в заявке',
@@ -84,30 +84,29 @@ app.post('/web-data',async (req,res) =>{
     console.log("Getting post req");
     console.log(req.body);   
     const message = "Заявка отправлена. Ожидайте решения." ;
-    try{
+   // try{
         sendDataToElma(req.body);
-        await bot.answerWebAppQuery(queryId,{
-            type:'article',
-            id:queryId,
-            title:'Успешно отправлена заявка',
-            input_message_content:{message_text: message}
-        })
+    //     await bot.answerWebAppQuery(queryId,{
+    //         type:'article',
+    //         id:queryId,
+    //         title:'Успешно отправлена заявка',
+    //         input_message_content:{message_text: message}
+    //     })
         return res.status(200).json({});
-    }catch(e){
-        await bot.answerWebAppQuery(queryId,{
-            type:'article',
-            id:queryId,
-            title:'Не удалось отправить заявку',
-            input_message_content:{message_text: "Не удалось отправить заявку."}
-        })
-        return res.status(500).json({});
-    }
+    // }catch(e){
+    //     await bot.answerWebAppQuery(queryId,{
+    //         type:'article',
+    //         id:queryId,
+    //         title:'Не удалось отправить заявку',
+    //         input_message_content:{message_text: "Не удалось отправить заявку."}
+    //     })
+    //     return res.status(500).json({});
+    // }
     
 })
 
-function sendDataToElma(reqBody){
+function sendDataToElma(reqBody,chatId){
     const dataFromUser = {
-    queryId,
     userName,
     firstname,
     middlename,
@@ -147,7 +146,7 @@ function sendDataToElma(reqBody){
             "00000000-0000-0000-0000-000000000000"
           ],
           "e_mail": email,
-          "queryid":queryId,
+          "chatid":chatId,
           "__target": "example"
         }
    }
@@ -160,6 +159,6 @@ function sendDataToElma(reqBody){
 }
 
 
-const PORT = 3000;
+const PORT = 4040;
 
 app.listen (PORT, () => console.log('server started on PORT ' + PORT))
