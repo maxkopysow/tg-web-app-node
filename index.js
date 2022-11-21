@@ -58,10 +58,10 @@ app.post('/accepted', async (req, res)=>{
 })
 
 app.post('/rejected', async (req, res)=>{
-    const {chatid, rejectionComment} = req.body;
+    const {chatid, rejection_reason} = req.body;
     console.log('Got rejection req');
 
-    const message = "Отказано в заявке :" + rejectionComment; 
+    const message = "Отказано в заявке :" + rejection_reason; 
 
     try{
         bot.sendMessage(chatid,message);
