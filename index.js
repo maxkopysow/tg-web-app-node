@@ -139,7 +139,7 @@ function sendDataToElma(data,chatId){
       "vneshnii_polzovatel": [
         "00000000-0000-0000-0000-000000000000"
       ],
-      "e_mail": `${lastname}`,
+      "e_mail": `${email}`,
       "queryid": "example",
       "chatid": `${chatId}`,
       "__target": "example"
