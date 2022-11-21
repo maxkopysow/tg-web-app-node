@@ -50,10 +50,6 @@ app.post('/accepted', async (req, res)=>{
    console.log('Got acception req');
     try{
         bot.sendMessage(chatid,message);
-
-        // res.header({
-        //     'Access-Control-Allow-Origin': '*'
-        //   });
       return res.status(200).json({});
     }catch(e){
         return res.status(500).json({});
@@ -62,16 +58,14 @@ app.post('/accepted', async (req, res)=>{
 })
 
 app.post('/rejected', async (req, res)=>{
-    const {queryid, rejectionComment} = req.body;
+    const {chatid, rejectionComment} = req.body;
+    console.log('Got rejection req');
 
     const message = "Отказано в заявке :" + rejectionComment; 
 
     try{
         bot.sendMessage(chatid,message);
 
-        // res.header({
-        //     'Access-Control-Allow-Origin': '*'
-        //   });
       return res.status(200).json({});
     }catch(e){
         return res.status(500).json({});
