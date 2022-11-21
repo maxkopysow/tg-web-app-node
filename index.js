@@ -50,6 +50,15 @@ app.post('/accepted', async (req, res)=>{
    
     try{
         bot.sendMessage(chatid,message);
+
+        res.header({
+            'Access-Control-Allow-Origin': '*',
+            // Access-Control-Allow-Origin: https://foo.invalid // Домен с которого идут запросы
+            // Access-Control-Allow-Credentials: true
+            // Access-Control-Allow-Headers: "заголовки которые можно отправить на удалённый сервер" 
+            // // Разрешённые методы
+            // "Access-Control-Allow-Methods": POST, GET, PUT, DELETE, OPTIONS
+          });
       return res.status(200).json({});
     }catch(e){
 
@@ -69,6 +78,9 @@ app.post('/rejected', async (req, res)=>{
             title:'Отказ в заявке',
             input_message_content:{message_text: message}
         })
+        res.header({
+            'Access-Control-Allow-Origin': '*',
+          });
         return res.status(200).json({});
     }catch(e){
         return res.status(500).json({});
@@ -161,6 +173,6 @@ function sendDataToElma(data,chatId){
 }
 
 
-const PORT = 4040;
+const PORT = 3000;
 
 app.listen (PORT, () => console.log('server started on PORT ' + PORT))
