@@ -3,7 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const urlElma = 'https://yhardd2fecpxq.elma365.ru/pub/v1/bpm/template/partner_account/processing_an_application_for_partner_registration/run';
 const tokenElma = 'd49e5518-c455-4a14-aaa7-a0fc67f50ca1';
-const token = '5734831079:AAFB480eoh_PZzlygAITeo9IIWBD5wKCGIs';
+// const token = '5734831079:AAFB480eoh_PZzlygAITeo9IIWBD5wKCGIs';
+const token = '5846193985:AAG0UldpIDi0n853CrJUi_ejcSVtyTKGBAc';
 const webAppUrl= 'https://benevolent-figolla-233e69.netlify.app';
 const bot = new TelegramBot(token, {polling: true});
 const app = express();
@@ -21,8 +22,7 @@ bot.on('message',async (msg) => {
             reply_markup: ({
                 keyboard: [
                     [{text: 'Заполните форму',web_app:{url: webAppUrl}}
-                ], // Clicking will send "1"
-                
+                ]
             ]
             })
         };
