@@ -47,7 +47,7 @@ bot.on('message',async (msg) => {
 app.post('/accepted', async (req, res)=>{
     const {chatid, inviteUrl} = req.body;
     const message = "Заявка была одобрена.\nПерейдите по ссылке для завершения регистрации:\n" + inviteUrl; 
-   
+   console.log('Got acception req');
     try{
         bot.sendMessage(chatid,message);
 
