@@ -19,7 +19,7 @@ bot.on('message',async (msg) => {
     if(text ==='/start'){
         var options = {
             reply_markup: ({
-                inline_keyboard: [
+                keyboard: [
                     [{text: 'Заполните форму',web_app:{url: webAppUrl}}
                 ], // Clicking will send "1"
                 
@@ -27,14 +27,16 @@ bot.on('message',async (msg) => {
             })
         };
         await bot.sendMessage(chatId,`Ниже появится кнопка, заполните форму. ${chatId}`,options)
+
   
     }
     if(msg?.web_app_data?.data){
         try{
             const data = JSON.parse(msg?.web_app_data?.data);
             console.log(data);
+            sendDataToElma(data,chatId);
             bot.sendMessage(chatId,'Завяка отправлена на одобрение. Ожидайте ответа.');
-            sendDataToElma(data,chatId);        
+                    
         }catch(e){
             console.log(e);
         }   
@@ -43,22 +45,16 @@ bot.on('message',async (msg) => {
 
 
 app.post('/accepted', async (req, res)=>{
-    const {chatId, inviteUrl} = req.body;
-
+    const {chatid, inviteUrl} = req.body;
     const message = "Заявка была одобрена.\nПерейдите по ссылке для завершения регистрации:\n" + inviteUrl; 
-    bot.sendMessage(chatId,message);
-    // try{
-    //     await bot.answerWebAppQuery(queryid,{
-    //         type:'article',
-    //         id:queryid,
-    //         title:'Заявка одобрена',
-    //         input_message_content:{message_text: message}
-    //     })
-        return res.status(200).json({});
-    // }catch(e){
-    //     // console.log(e);
-    //     return res.status(500).json({});
-    // }
+   
+    try{
+        bot.sendMessage(chatid,message);
+      return res.status(200).json({});
+    }catch(e){
+
+    }
+
 })
 
 app.post('/rejected', async (req, res)=>{
@@ -79,33 +75,33 @@ app.post('/rejected', async (req, res)=>{
     }
 })
 
-app.post('/web-data',async (req,res) =>{
-    const {queryId} = req.body;
-    console.log("Getting post req");
-    console.log(req.body);   
-    const message = "Заявка отправлена. Ожидайте решения." ;
-   // try{
-        sendDataToElma(req.body);
-    //     await bot.answerWebAppQuery(queryId,{
-    //         type:'article',
-    //         id:queryId,
-    //         title:'Успешно отправлена заявка',
-    //         input_message_content:{message_text: message}
-    //     })
-        return res.status(200).json({});
-    // }catch(e){
-    //     await bot.answerWebAppQuery(queryId,{
-    //         type:'article',
-    //         id:queryId,
-    //         title:'Не удалось отправить заявку',
-    //         input_message_content:{message_text: "Не удалось отправить заявку."}
-    //     })
-    //     return res.status(500).json({});
-    // }
+// app.post('/web-data',async (req,res) =>{
+//     const {queryId} = req.body;
+//     console.log("Getting post req");
+//     console.log(req.body);   
+//     const message = "Заявка отправлена. Ожидайте решения." ;
+//    // try{
+//         sendDataToElma(req.body);
+//     //     await bot.answerWebAppQuery(queryId,{
+//     //         type:'article',
+//     //         id:queryId,
+//     //         title:'Успешно отправлена заявка',
+//     //         input_message_content:{message_text: message}
+//     //     })
+//         return res.status(200).json({});
+//     // }catch(e){
+//     //     await bot.answerWebAppQuery(queryId,{
+//     //         type:'article',
+//     //         id:queryId,
+//     //         title:'Не удалось отправить заявку',
+//     //         input_message_content:{message_text: "Не удалось отправить заявку."}
+//     //     })
+//     //     return res.status(500).json({});
+//     // }
     
-})
+// })
 
-function sendDataToElma(reqBody,chatId){
+function sendDataToElma(data,chatId){
     const dataFromUser = {
     userName,
     firstname,
@@ -115,47 +111,53 @@ function sendDataToElma(reqBody,chatId){
     companyName,
     companyINN,
     phoneNumber,
-   } = reqBody;
+   } = data;
 
    const dataToElma = {
-        "context": {
-          "responsible_for_working_with_partners": [
-            "00000000-0000-0000-0000-000000000000"
-          ],
-          "email": [
-            {
-              "type": "main",
-              "email": email
-            }
-          ],
-          "full_name": {
-            "lastname": lastname,
-            "middlename": middlename,
-            "firstname": firstname
-          },
-          "company_name": companyName,
-          "company_inn": companyINN,
-          "phone_number": [
-            {
-              "type": "main",
-              "tel": phoneNumber
-            }
-          ],
-          "teg_telegram": userName,
-          "vneshnii_polzovatel": [
-            "00000000-0000-0000-0000-000000000000"
-          ],
-          "e_mail": email,
-          "chatid":chatId,
-          "__target": "example"
+    "context": {
+      "responsible_for_working_with_partners": [
+        "00000000-0000-0000-0000-000000000000"
+      ],
+      "email": [
+        {
+          "type": "home",
+          "email": `${email}`
         }
-   }
+      ],
+      "full_name": {
+        "lastname": `${lastname}`,
+        "middlename": `${middlename}`,
+        "firstname": `${firstname}`
+      },
+      "company_name": `${companyName}`,
+      "company_inn": `${companyINN}`,
+      "nomer_telefona": `${phoneNumber}`,
+      "phone_number": [
+        {
+          "type": "home",
+          "tel": `${phoneNumber}`
+        }
+      ],
+      "teg_telegram": "example",
+      "vneshnii_polzovatel": [
+        "00000000-0000-0000-0000-000000000000"
+      ],
+      "e_mail": `${lastname}`,
+      "queryid": "example",
+      "chatid": `${chatId}`,
+      "__target": "example"
+    }
+  }
+  try{
    fetch(urlElma, {  // Enter your IP address here
             headers:{"Content-Type":"application/json","Authorization": `Bearer ${tokenElma}`},
             method: 'POST', 
             body: JSON.stringify(dataToElma) // body data type must match "Content-Type" header
             }
-        ) 
+        )
+    }catch(e){
+
+    } 
 }
 
 
