@@ -51,17 +51,12 @@ app.post('/accepted', async (req, res)=>{
     try{
         bot.sendMessage(chatid,message);
 
-        res.header({
-            'Access-Control-Allow-Origin': '*',
-            // Access-Control-Allow-Origin: https://foo.invalid // Домен с которого идут запросы
-            // Access-Control-Allow-Credentials: true
-            // Access-Control-Allow-Headers: "заголовки которые можно отправить на удалённый сервер" 
-            // // Разрешённые методы
-            // "Access-Control-Allow-Methods": POST, GET, PUT, DELETE, OPTIONS
-          });
+        // res.header({
+        //     'Access-Control-Allow-Origin': '*'
+        //   });
       return res.status(200).json({});
     }catch(e){
-
+        return res.status(500).json({});
     }
 
 })
@@ -72,16 +67,12 @@ app.post('/rejected', async (req, res)=>{
     const message = "Отказано в заявке :" + rejectionComment; 
 
     try{
-        await bot.answerWebAppQuery(queryid,{
-            type:'article',
-            id:queryid,
-            title:'Отказ в заявке',
-            input_message_content:{message_text: message}
-        })
-        res.header({
-            'Access-Control-Allow-Origin': '*',
-          });
-        return res.status(200).json({});
+        bot.sendMessage(chatid,message);
+
+        // res.header({
+        //     'Access-Control-Allow-Origin': '*'
+        //   });
+      return res.status(200).json({});
     }catch(e){
         return res.status(500).json({});
     }
