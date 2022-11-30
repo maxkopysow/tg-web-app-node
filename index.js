@@ -43,20 +43,22 @@ bot.on('message',async (msg) => {
     }  
 });
 
+function printMessageError(e){
+  console.log(e.message);
+}
 
 app.post('/accepted', async (req, res)=>{
     const {chatid, inviteUrl} = req.body;
     const message = "Заявка была одобрена.\nПерейдите по ссылке для завершения регистрации:\n" + inviteUrl; 
-   console.log('Got acception req');
-    try{
-          bot.sendMessage(chatid,message);
-        return res.status(200).json({});
-      }catch(e){
-        if(e === "ETELEGRAM")
-         return res.status(400).json({});
-        return res.status(500).json({});
-      }
-      
+    console.log('Got acception req');
+    
+    if(chatid === "" || inviteUrl ===""){
+      return res.status(400).json({});
+    }
+
+    bot.sendMessage(chatid,message).catch( e => printMessageError(e) );
+    return res.status(200).json({});
+
    
 })
 
@@ -66,40 +68,14 @@ app.post('/rejected', async (req, res)=>{
 
     const message = "Отказано в заявке :\n" + rejection_reason; 
 
-    try{
-        bot.sendMessage(chatid,message);
 
-      return res.status(200).json({});
-    }catch(e){
-        return res.status(500).json({});
+    if(chatid === "" || rejection_reason ===""){
+      return res.status(400).json({});
     }
-})
 
-// app.post('/web-data',async (req,res) =>{
-//     const {queryId} = req.body;
-//     console.log("Getting post req");
-//     console.log(req.body);   
-//     const message = "Заявка отправлена. Ожидайте решения." ;
-//    // try{
-//         sendDataToElma(req.body);
-//     //     await bot.answerWebAppQuery(queryId,{
-//     //         type:'article',
-//     //         id:queryId,
-//     //         title:'Успешно отправлена заявка',
-//     //         input_message_content:{message_text: message}
-//     //     })
-//         return res.status(200).json({});
-//     // }catch(e){
-//     //     await bot.answerWebAppQuery(queryId,{
-//     //         type:'article',
-//     //         id:queryId,
-//     //         title:'Не удалось отправить заявку',
-//     //         input_message_content:{message_text: "Не удалось отправить заявку."}
-//     //     })
-//     //     return res.status(500).json({});
-//     // }
-    
-// })
+    bot.sendMessage(chatid,message).catch( e => printMessageError(e) );
+    return res.status(200).json({});
+})
 
 function sendDataToElma(data,chatId){
     const dataFromUser = {
