@@ -49,12 +49,15 @@ app.post('/accepted', async (req, res)=>{
     const message = "Заявка была одобрена.\nПерейдите по ссылке для завершения регистрации:\n" + inviteUrl; 
    console.log('Got acception req');
     try{
-        bot.sendMessage(chatid,message);
-      return res.status(200).json({});
-    }catch(e){
+          bot.sendMessage(chatid,message);
+        return res.status(200).json({});
+      }catch(e){
+        if(e === "ETELEGRAM")
+         return res.status(400).json({});
         return res.status(500).json({});
-    }
-
+      }
+      
+   
 })
 
 app.post('/rejected', async (req, res)=>{
