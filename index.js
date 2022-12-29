@@ -1,8 +1,8 @@
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const cors = require('cors');
-const urlElma = 'https://gcb5h7on2kx2i.elma365.ru/pub/v1/bpm/template/partner_account/processing_an_application_for_partner_registration/run';
-const tokenElma = '73e9a39f-423f-42bb-b8af-c7b817008073';
+const urlElma = 'https://m2z2c6oawsule.elma365.ru/pub/v1/bpm/template/partner_account/processing_an_application_for_partner_registration/run';
+const tokenElma = 'bf063a82-bad5-4277-ba3e-bc1125e781bb';
 // const token = '5734831079:AAFB480eoh_PZzlygAITeo9IIWBD5wKCGIs';
 const token = '5846193985:AAG0UldpIDi0n853CrJUi_ejcSVtyTKGBAc';
 const webAppUrl= 'https://benevolent-figolla-233e69.netlify.app';
